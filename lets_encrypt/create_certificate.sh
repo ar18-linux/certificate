@@ -212,7 +212,7 @@ set -e
 
 ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_certbot.tcl"
 ar18.script.execute_with_sudo "${script_dir}/expect_certbot.tcl" "${dry_run}" "${email}" "${domain}"
-alias my_exit="ar18_return_or_exit && eval \"${ar18_exit}\""
+alias my_exit='ar18_return_or_exit && eval "${ar18_exit}"'
 my_exit
 ar18_return_or_exit && eval "${ar18_exit}"
 
