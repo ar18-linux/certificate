@@ -182,6 +182,37 @@ trap 'err_report "${BASH_SOURCE[0]}" ${LINENO} "${BASH_COMMAND}"' ERR
 }
 #################################SCRIPT_START##################################
 
+dry_run="--dry-run"
+email="foo@bar.baz"
+domain="ar18.spdns.org"
+
+import ar18.script.obtain_sudo_password
+ar18.script.import ar18.pacman.install
+ar18.script.import ar18.script.execute_with_sudo
+ar18.script.import ar18.script.read_target
+
+ar18.script.obtain_sudo_password
+
+ar18.script.execute_with_sudo rm -rf /etc/letsencrypt/
+ar18.script.execute_with_sudo rm -rf /var/lib/letsencrypt/
+ar18.script.execute_with_sudo rm -rf /var/log/letsencrypt/
+
+ar18.pacman.install certbot ufw
+
+ar18.script.execute_with_sudo ufw allow ssh
+ar18.script.execute_with_sudo ufw allow http
+ar18.script.execute_with_sudo ufw allow https
+ar18.script.execute_with_sudo ufw enable
+
+set +e
+ar18.script.execute_with_sudo systemctl stop nginx
+ar18.script.execute_with_sudo systemctl stop nginx
+set -e
+
+ar18.script.execute_with_sudo "${script_dir}/expect_certbot.tcl" "${dry_run}" "${email}" "${domain}"
+
+ar18_return_or_exit
+
 mkdir -p /var/www/letsencrypt/.well-known/acme-challenge
 mkdir -p /var/log/letsencrypt
 
