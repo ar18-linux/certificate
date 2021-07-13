@@ -209,6 +209,7 @@ ar18.script.execute_with_sudo systemctl stop nginx
 ar18.script.execute_with_sudo systemctl stop nginx
 set -e
 
+ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_certbot.tcl"
 ar18.script.execute_with_sudo "${script_dir}/expect_certbot.tcl" "${dry_run}" "${email}" "${domain}"
 
 ar18_return_or_exit
