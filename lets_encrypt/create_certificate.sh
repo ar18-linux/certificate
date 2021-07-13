@@ -3,7 +3,7 @@
 
 # Prepare script environment
 {
-  # Script template version 2021-07-11_19:04:49
+  # Script template version 2021-07-14_00:03:18
   script_dir_temp="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
   script_path_temp="${script_dir_temp}/$(basename "${BASH_SOURCE[0]}")"
   # Get old shell option values to restore later
@@ -54,14 +54,15 @@ function restore_env(){
 function ar18_return_or_exit(){
   set +x
   local path
-  path="${1}"
   local ret
   set +u
+  path="${1}"
   ret="${2}"
   set -u
+  if [ "${path}" = "" ]; then
+    path="${script_path}"
+  fi
   if [ "${ret}" = "" ]; then
-    ret="${ar18_exit_map["${path}"]}"
-  else
     ret="${ar18_exit_map["${path}"]}"
   fi
   if [ "${ar18_sourced_map["${path}"]}" = "1" ]; then
@@ -211,8 +212,9 @@ set -e
 
 ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_certbot.tcl"
 ar18.script.execute_with_sudo "${script_dir}/expect_certbot.tcl" "${dry_run}" "${email}" "${domain}"
-
-ar18_return_or_exit
+alias my_exit="ar18_return_or_exit && eval \"${ar18_exit}\""
+my_exit
+ar18_return_or_exit && eval "${ar18_exit}"
 
 mkdir -p /var/www/letsencrypt/.well-known/acme-challenge
 mkdir -p /var/log/letsencrypt
