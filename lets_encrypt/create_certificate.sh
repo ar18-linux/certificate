@@ -210,6 +210,11 @@ set -e
 ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_certbot.tcl"
 ar18.script.execute_with_sudo "${script_dir}/expect_certbot.tcl" "${dry_run}" "${email}" "${domain}"
 
+set +e
+ar18.script.execute_with_sudo systemctl start nginx
+ar18.script.execute_with_sudo systemctl start nginx
+set -e
+
 ar18_return_or_exit "${script_path}" && eval "${ar18_exit}"
 
 mkdir -p /var/www/letsencrypt/.well-known/acme-challenge
