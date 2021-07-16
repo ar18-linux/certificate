@@ -1,0 +1,8 @@
+# This part is used to create a self-signed certificate
+country="DE"
+state="NRW"
+locality="HOME"
+organization="ARINC"
+unit="RD"
+common_name="AR18"
+email="alexander.remus@googlemail.com"
