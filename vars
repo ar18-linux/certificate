@@ -1,4 +1,4 @@
-module_name="lets_encrypt"
+module_name="certificate"
 
 if [ ! -v user_name ]; then
   user_name="$(whoami)"
