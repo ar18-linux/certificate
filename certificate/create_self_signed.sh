@@ -199,8 +199,6 @@ ar18.script.obtain_sudo_password
 
 temp_dir="/tmp/${module_name}"
 
-ar18.script.install "${install_dir}" "${module_name}" "${script_dir}"
-
 set +u
 export ar18_deployment_target="$(ar18.script.read_target "${1}")"
 set -u
