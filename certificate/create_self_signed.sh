@@ -197,8 +197,6 @@ ar18.script.import ar18.script.source_or_execute_config
 
 ar18.script.obtain_sudo_password
 
-. "${script_dir}/vars"
-
 temp_dir="/tmp/${module_name}"
 
 ar18.script.install "${install_dir}" "${module_name}" "${script_dir}"
