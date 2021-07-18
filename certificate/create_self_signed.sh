@@ -197,6 +197,8 @@ ar18.script.import ar18.script.source_or_execute_config
 
 ar18.script.obtain_sudo_password
 
+module_name="$(basename "${script_dir}")"
+
 temp_dir="/tmp/${module_name}"
 
 set +u
@@ -208,21 +210,21 @@ ar18.script.execute_with_sudo rm -rf "${temp_dir}"
 mkdir -p "${temp_dir}"
 ar18.pacman.install openssl
 rand_str="$(uuidgen)"
-#openssl genrsa -des3 -passout pass:"${rand_str}" -out "${temp_dir}/keypair.key" 2048
+openssl genrsa -des3 -passout pass:"${rand_str}" -out "${temp_dir}/keypair.key" 2048
 #ar18.script.execute_with_sudo rm -rf "${cert_dir}/${domain_or_ip}"
 #ar18.script.execute_with_sudo mkdir -p "${cert_dir}"
 
-#ar18.script.execute_with_sudo openssl rsa -passin pass:"${rand_str}" -in "${temp_dir}/keypair.key" -out "${cert_dir}/${domain_or_ip}.key"
+ar18.script.execute_with_sudo openssl rsa -passin pass:"${rand_str}" -in "${temp_dir}/keypair.key" -out "${temp_dir}/${domain_or_ip}.key"
 
-#ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_openssl.tcl"
+ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_openssl.tcl"
 
 # Lots of questions asked!
-#ar18.script.execute_with_sudo "${script_dir}/install.tcl" "${cert_dir}" "${domain_or_ip}" \
-#  "${country}" "${state}" "${locality}" "${organization}" "${unit}" "${common_name}" "${email}"
+ar18.script.execute_with_sudo "${script_dir}/install.tcl" "${temp_dir}" "${domain_or_ip}" \
+  "${country}" "${state}" "${locality}" "${organization}" "${unit}" "${common_name}" "${email}"
 echo "Questions answered"
 
-ar18.script.execute_with_sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt" -config "${script_dir}/config/${ar18_deployment_target}.conf"
-#ar18.script.execute_with_sudo openssl x509 -req -days 365 -in "${cert_dir}/${domain_or_ip}.csr" -signkey "${cert_dir}/${domain_or_ip}.key" -out "${cert_dir}/${domain_or_ip}.crt"
+#ar18.script.execute_with_sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt" -config "/home/${user_name}/.config/ar18/${module_name}/${ar18_deployment_target}.conf"
+ar18.script.execute_with_sudo openssl x509 -req -days 365 -in "${temp_dir}/${domain_or_ip}.csr" -signkey "${temp_dir}/${domain_or_ip}.key" -out "${cert_dir}/${domain_or_ip}.crt"
 
 ar18.script.execute_with_sudo cp "${temp_dir}/${domain_or_ip}.crt" "/etc/ssl/certs/${domain_or_ip}.crt"
 ar18.script.execute_with_sudo cp "${temp_dir}/${domain_or_ip}.key" "/etc/ssl/private/${domain_or_ip}.key"
