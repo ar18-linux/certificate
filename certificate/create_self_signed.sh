@@ -224,7 +224,8 @@ ar18.script.execute_with_sudo "${script_dir}/expect_openssl.tcl" "${temp_dir}" "
 echo "Questions answered"
 
 #ar18.script.execute_with_sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt" -config "/home/${user_name}/.config/ar18/${module_name}/${ar18_deployment_target}.conf"
-ar18.script.execute_with_sudo openssl x509 -req -days 365 -in "${temp_dir}/${domain_or_ip}.csr" -signkey "${temp_dir}/${domain_or_ip}.key" -out "${cert_dir}/${domain_or_ip}.crt"
+ar18.script.execute_with_sudo openssl x509 -req -days 365 -in "${temp_dir}/${domain_or_ip}.csr" \
+  -signkey "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt"
 
 ar18.script.execute_with_sudo cp "${temp_dir}/${domain_or_ip}.crt" "/etc/ssl/certs/${domain_or_ip}.crt"
 ar18.script.execute_with_sudo cp "${temp_dir}/${domain_or_ip}.key" "/etc/ssl/private/${domain_or_ip}.key"
