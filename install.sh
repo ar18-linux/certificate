@@ -193,6 +193,9 @@ ar18.script.install "${install_dir}" "${module_name}" "${script_dir}"
 
 ar18.pacman.install certbot
 
+set +e
+ar18.script.execute_with_sudo userdel certbot
+set -e
 ar18.script.execute_with_sudo useradd -U -m certbot
 
 ##################################SCRIPT_END###################################
