@@ -1,1 +1,10 @@
 domain_or_ip="ar18.spdns.org"
+
+# OpenSSL questions
+country="DE"
+state="NRW"
+locality="HOME"
+organization="ARINC"
+unit="RD"
+common_name="AR18"
+email="alexander.remus@googlemail.com"

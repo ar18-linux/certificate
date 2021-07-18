@@ -219,7 +219,7 @@ ar18.script.execute_with_sudo openssl rsa -passin pass:"${rand_str}" -in "${temp
 ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_openssl.tcl"
 
 # Lots of questions asked!
-ar18.script.execute_with_sudo "${script_dir}/install.tcl" "${temp_dir}" "${domain_or_ip}" \
+ar18.script.execute_with_sudo "${script_dir}/expect_openssl.tcl" "${temp_dir}" "${domain_or_ip}" \
   "${country}" "${state}" "${locality}" "${organization}" "${unit}" "${common_name}" "${email}"
 echo "Questions answered"
 

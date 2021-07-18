@@ -1,4 +1,6 @@
-# This part is used to create a self-signed certificate
+domain_or_ip="ar18.spdns.org"
+
+# OpenSSL questions
 country="DE"
 state="NRW"
 locality="HOME"
