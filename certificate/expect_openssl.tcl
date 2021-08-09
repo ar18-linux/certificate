@@ -12,7 +12,7 @@ set email [lindex $argv 8];
 
 set timeout -1
 
-spawn openssl req -new -key "${cert_dir}/${domain_or_ip}.key" -out "${cert_dir}/${domain_or_ip}.csr"
+spawn openssl req -new -addext "subjectAltName = DNS:${domain_or_ip}" -key "${cert_dir}/${domain_or_ip}.key" -out "${cert_dir}/${domain_or_ip}.csr"
 expect {
   "Country Name" {
     send -- "${country}\r"
