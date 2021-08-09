@@ -220,14 +220,18 @@ ar18.script.execute_with_sudo openssl rsa -passin pass:"${rand_str}" -in "${temp
 ar18.script.execute_with_sudo chmod +x "${script_dir}/expect_openssl.tcl"
 
 # Lots of questions asked!
-ar18.script.execute_with_sudo "${script_dir}/expect_openssl.tcl" "${temp_dir}" "${domain_or_ip}" \
-  "${country}" "${state}" "${locality}" "${organization}" "${unit}" "${common_name}" "${email}"
-echo "Questions answered"
+#ar18.script.execute_with_sudo "${script_dir}/expect_openssl.tcl" "${temp_dir}" "${domain_or_ip}" \
+#  "${country}" "${state}" "${locality}" "${organization}" "${unit}" "${common_name}" "${email}"
+#echo "Questions answered"
 
 #ar18.script.execute_with_sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt" -config "/home/${user_name}/.config/ar18/${module_name}/${ar18_deployment_target}.conf"
-ar18.script.execute_with_sudo openssl x509 -req -days 365 -in "${temp_dir}/${domain_or_ip}.csr" \
-  -signkey "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt"
-
+#ar18.script.execute_with_sudo openssl x509 -extensions SAN -req -days 3650 -in "${temp_dir}/${domain_or_ip}.csr" \
+#  -addext "subjectAltName = DNS:${domain_or_ip}" -signkey "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt"
+  
+ar18.script.execute_with_sudo openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
+  -keyout "${temp_dir}/${domain_or_ip}.key" -out "${temp_dir}/${domain_or_ip}.crt" -subj "/CN=${domain_or_ip}" \
+  -addext "subjectAltName=DNS:${domain_or_ip}"
+  
 ar18.script.execute_with_sudo cp "${temp_dir}/${domain_or_ip}.crt" "/etc/ssl/certs/${domain_or_ip}.crt"
 ar18.script.execute_with_sudo cp "${temp_dir}/${domain_or_ip}.key" "/etc/ssl/private/${domain_or_ip}.key"
 
