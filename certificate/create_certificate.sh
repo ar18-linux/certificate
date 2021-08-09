@@ -3,9 +3,10 @@
 
 # Prepare script environment
 {
-  # Script template version 2021-07-14_00:22:16
+  # Script template version 2021-08-01_09:52:50
   script_dir_temp="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
   script_path_temp="${script_dir_temp}/$(basename "${BASH_SOURCE[0]}")"
+  echo "*${script_path_temp}"
   # Get old shell option values to restore later
   if [ ! -v ar18_old_shopt_map ]; then
     declare -A -g ar18_old_shopt_map
@@ -240,4 +241,5 @@ openssl dhparam 2048 >/etc/nginx/dhparam.pem
 
 ##################################SCRIPT_END###################################
 set +x
+# TODO: After version update, script returns but should exit?
 ar18_return_or_exit "${script_path}" && eval "${ar18_exit}"
